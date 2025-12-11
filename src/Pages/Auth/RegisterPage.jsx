@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
 import { Link } from "react-router";
 import GoogleLogin from "./GoogleLogin";
+import useAuth from "../../Hook/useAuth";
 
 export default function RegisterPage() {
   const {
@@ -10,9 +11,26 @@ export default function RegisterPage() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
-  const onSubmit = (data) => {
-    console.log(data);
+  const { createUser, updateUser } = useAuth();
+  const handleRegister = (data) => {
+    console.log(data)
+    const profile = {
+      displayName: data.name,
+      photoURL: data.imageUrl,
+    };
+      createUser(data.email, data.password)
+      .then(() =>{
+         updateUser(profile)
+         .then(() =>{
+          alert('update complate')
+         })
+         .catch(erro =>{
+          console.log(erro)
+         })
+      })
+      .catch(err =>{
+        console.log(err)
+      })
   };
 
   return (
@@ -23,12 +41,12 @@ export default function RegisterPage() {
           {/* Logo / Title */}
           <div className="text-center mb-10">
             <h1 className="text-5xl font-bold bg-gradient-to-r from-cyan-400 via-teal-400 to-emerald-400 bg-clip-text text-transparent">
-              PetCourier
+              BookCourier
             </h1>
             <p className="text-gray-400 mt-3 text-lg">Create your account</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-7">
+          <form onSubmit={handleSubmit(handleRegister)} className="space-y-7">
             {/* Name */}
             <div className="relative">
               <input

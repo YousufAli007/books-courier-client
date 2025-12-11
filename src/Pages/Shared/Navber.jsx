@@ -2,10 +2,11 @@ import React from "react";
 import logoImg from "../../assets/logo.png";
 import { Link, NavLink } from "react-router";
 import { FaSun, FaMoon } from "react-icons/fa"; // React Icons
-// import useAuth from "../../Hook/useAuth";
+import useAuth from "../../Hook/useAuth";
 
 const Navber = ({ theme, setTheme }) => {
-  // const user = useAuth();
+const {user} = useAuth();
+  console.log(user)
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");

@@ -1,18 +1,28 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router-dom"; // Updated import for modern React Router
+import { Link, useNavigate } from "react-router-dom"; // Updated import for modern React Router
 import GoogleLogin from "./GoogleLogin";
+import useAuth from "../../Hook/useAuth";
 
 export default function LoginPage() {
+  const navagite =useNavigate()
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+ const {signInUser} =useAuth();
   const onSubmit = (data) => {
-    console.log(data); // Handle login logic here (e.g., API call)
+    console.log(data);  
+    signInUser(data.email,data.password)
+    .then(res =>{
+      console.log(res)
+      navagite('/')
+    })
+    .catch(err =>{
+      console.log(err)
+    })
   };
 
   return (
