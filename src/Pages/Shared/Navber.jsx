@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
 import logoImg from "../../assets/logo.png";
 import { Link, NavLink } from "react-router";
 import { FaSun, FaMoon } from "react-icons/fa"; // React Icons
 import useAuth from "../../Hook/useAuth";
+import Swal from "sweetalert2";
 
 const Navber = ({ theme, setTheme }) => {
-const {user} = useAuth();
-  console.log(user)
+ const [logOutDropdwon, setLogOutDropdown] = useState(false);
+const { user, logOut } = useAuth();
+const handleLogOut=()=>{
+  logOut()
+  .then(()=>{
+    setLogOutDropdown(false)
+    Swal.fire({
+      position: "top-end",
+      icon: "success",
+      title: "Log Out Success",
+      showConfirmButton: false,
+      timer: 1500,
+    });
+  })
+  .catch(err =>{
+    console.log(err)
+  })
+}
+
+  
 
   const toggleTheme = () => {
     setTheme(theme === "light" ? "dark" : "light");
@@ -77,7 +96,26 @@ const {user} = useAuth();
             </button>
 
             {/* Login Button */}
-            <Link to='/login' className="btn">Login</Link>
+            <div className="relative">
+              {user ? (
+                <img
+                  onClick={() => setLogOutDropdown(!logOutDropdwon)}
+                  referrerPolicy="no-referrer"
+                  className="w-[50px] rounded-full"
+                  src={user?.photoURL}
+                  alt=""
+                />
+              ) : (
+                <Link to="/login" className="btn btnStyle text-black">
+                  Login
+                </Link>
+              )}
+              {logOutDropdwon && (
+                <div className=" shadow-lg rounded-sm p-2 absolute top-17 w-[150px] right-1">
+                  <button onClick={handleLogOut} className="btn btnStyle">Log Out</button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
       </div>

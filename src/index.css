@@ -6,3 +6,7 @@
   --color-primary: blue;
   --color-secondary: teal;
 }
+.btnStyle{
+  @apply bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500
+                hover:from-emerald-500 hover:via-cyan-500 hover:to-teal-600
+}

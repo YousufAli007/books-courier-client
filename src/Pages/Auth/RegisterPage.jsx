@@ -1,11 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link } from "react-router";
+import { Link, useNavigate } from "react-router";
 import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../Hook/useAuth";
+import Swal from "sweetalert2";
 
 export default function RegisterPage() {
+  const navigate =useNavigate()
   const {
     register,
     handleSubmit,
@@ -13,16 +15,24 @@ export default function RegisterPage() {
   } = useForm();
   const { createUser, updateUser } = useAuth();
   const handleRegister = (data) => {
-    console.log(data)
+    // console.log(data)
     const profile = {
       displayName: data.name,
       photoURL: data.imageUrl,
     };
       createUser(data.email, data.password)
       .then(() =>{
+        // update user
          updateUser(profile)
          .then(() =>{
-          alert('update complate')
+            navigate('/')
+            Swal.fire({
+              position: "top-end",
+              icon: "success",
+              title: "Register success",
+              showConfirmButton: false,
+              timer: 1500,
+            });
          })
          .catch(erro =>{
           console.log(erro)
