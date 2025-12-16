@@ -8,22 +8,25 @@ import Swal from "sweetalert2";
 const Navber = ({ theme, setTheme }) => {
  const [logOutDropdwon, setLogOutDropdown] = useState(false);
 const { user, logOut } = useAuth();
-const handleLogOut=()=>{
+
+const handleLogOut = () => {
+  console.log('hello');
+  
   logOut()
-  .then(()=>{
-    setLogOutDropdown(false)
-    Swal.fire({
-      position: "top-end",
-      icon: "success",
-      title: "Log Out Success",
-      showConfirmButton: false,
-      timer: 1500,
+    .then(() => {
+      setLogOutDropdown(false);
+      Swal.fire({
+        position: "top-end",
+        icon: "success",
+        title: "Log Out Success",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+    })
+    .catch((err) => {
+      console.log(err);
     });
-  })
-  .catch(err =>{
-    console.log(err)
-  })
-}
+};
 
   
 
@@ -36,13 +39,16 @@ const handleLogOut=()=>{
       <li>
         <NavLink to="/">Home</NavLink>
       </li>
+      <li>
+        <NavLink to="/books">Books</NavLink>
+      </li>
     </>
   );
 
   return (
     <div className="bg-base-100 shadow-sm">
       <div className="container mx-auto">
-        <div className="navbar">
+        <div  className="navbar z-9999">
           {/* Navbar Start */}
           <div className="navbar-start">
             <div className="dropdown">
