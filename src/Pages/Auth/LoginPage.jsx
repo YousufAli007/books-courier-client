@@ -6,23 +6,23 @@ import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../Hook/useAuth";
 
 export default function LoginPage() {
-  const navagite =useNavigate()
+  const navagite = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
- const {signInUser} =useAuth();
+  const { signInUser } = useAuth();
   const onSubmit = (data) => {
-    console.log(data);  
-    signInUser(data.email,data.password)
-    .then(res =>{
-      console.log(res)
-      navagite('/')
-    })
-    .catch(err =>{
-      console.log(err)
-    })
+    console.log(data);
+    signInUser(data.email, data.password)
+      .then((res) => {
+        console.log(res);
+        navagite("/");
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   return (
@@ -130,8 +130,8 @@ export default function LoginPage() {
           </div>
 
           {/* Google Button */}
-         
-          <GoogleLogin/>
+
+          <GoogleLogin />
 
           {/* Register Link */}
           <p className="text-center mt-8 text-gray-400">

@@ -5,6 +5,7 @@ import LoginPage from "../Pages/Auth/LoginPage";
 import RegisterPage from "../Pages/Auth/RegisterPage";
 import Books from "../Pages/Book/Books";
 import BookDetails from "../Pages/Home/BookDetails";
+import PriviteRoutes from "./PriviteRoutes";
 
  const router = createBrowserRouter([
    {
@@ -25,12 +26,16 @@ import BookDetails from "../Pages/Home/BookDetails";
        },
        {
          path: "books",
-         element:<Books/>
+         element: <Books />,
        },
        {
-        path:'book-details/:id',
-        element:<BookDetails/>
-       }
+         path: "book-details/:id",
+         element: (
+           <PriviteRoutes>
+             <BookDetails />
+           </PriviteRoutes>
+         ),
+       },
      ],
    },
  ]);

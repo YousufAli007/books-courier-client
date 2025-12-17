@@ -14,22 +14,24 @@ const AuthProvider = ({ children }) => {
   }
   // CreateUser
   const createUser =(email,password)=>{
-    // setLoading(true)
+    setLoading(true)
     return createUserWithEmailAndPassword(auth,email,password) 
   }
   // sign in
   const signInUser = (email,password)=>{
-   
+    setLoading(true)
     return signInWithEmailAndPassword(auth, email,password)
   }
   // update user's profile
   const updateUser =(profile)=>{
+    setLoading(true)
     return updateProfile(auth.currentUser,profile)
   }
   // current user
   useEffect(()=>{
     const unSubcribe = onAuthStateChanged(auth ,currentUser =>{
       setUser(currentUser)
+      setLoading(false)
       
     })
     return ()=>{
