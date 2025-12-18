@@ -5,10 +5,11 @@ import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../Hook/useAuth";
 import Swal from "sweetalert2";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
 export default function RegisterPage() {
   const location =useLocation()
-  console.log(location)
+  const axiosSecure =useAxiosSecure()
   const navigate =useNavigate()
   const {
     register,
@@ -22,8 +23,21 @@ export default function RegisterPage() {
       displayName: data.name,
       photoURL: data.imageUrl,
     };
+   
       createUser(data.email, data.password)
       .then(() =>{
+        // set user database
+         const userInfo = {
+           displayName: data.name,
+           photoURL: data.imageUrl,
+           email: data.email,
+         };
+         axiosSecure.post('/users',userInfo)
+         .then(res =>{
+          if(res.data.insertedId){
+            console.log('userInfo in Database')
+          }
+         })
         // update user
          updateUser(profile)
          .then(() =>{

@@ -2,8 +2,10 @@ import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import useAuth from '../../Hook/useAuth';
 import { useLocation, useNavigate } from 'react-router';
+import useAxiosSecure from '../../Hook/useAxiosSecure';
 
 const GoogleLogin = () => {
+  const axiosSecure =useAxiosSecure()
   const location =useLocation()
   const navigate =useNavigate()
    const  {googleLogin}  = useAuth();
@@ -11,8 +13,19 @@ const GoogleLogin = () => {
   const handleGoogleLoding=()=>{
     googleLogin()
     .then(res =>{
-      console.log(res)
-      navigate(location.state || '/')
+     console.log(res)
+      const userInfo = {
+        displayName:res.user.displayName,
+        photoURL: res.user.photoURL,
+        email: res.user.email,
+      };
+      axiosSecure.post('/users', userInfo)
+      .then(res =>{
+        if (res.data.insertedId) {
+          console.log("user info set database");
+        }
+      })
+      navigate(location.state || "/");
     })
     .catch(erro =>{
       console.log(erro)

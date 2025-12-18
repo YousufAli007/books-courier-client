@@ -8,7 +8,7 @@ const PriviteRoutes = ({children}) => {
   const location =useLocation()
   // console.log(location)
   if (loading) {
-    return <LoadingPage/> 
+    return <p>loding</p>
   }
   if(!user){
     return <Navigate state={location.pathname} to='/login'></Navigate>

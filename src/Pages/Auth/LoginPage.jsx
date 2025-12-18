@@ -7,7 +7,7 @@ import useAuth from "../../Hook/useAuth";
 
 export default function LoginPage() {
   const location =useLocation()
-  console.log(location)
+  // console.log(location)
   const navagite = useNavigate();
   const {
     register,
