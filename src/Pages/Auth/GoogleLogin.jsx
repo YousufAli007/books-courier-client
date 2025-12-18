@@ -1,9 +1,10 @@
 import React from 'react';
 import { FcGoogle } from 'react-icons/fc';
 import useAuth from '../../Hook/useAuth';
-import { useNavigate } from 'react-router';
+import { useLocation, useNavigate } from 'react-router';
 
 const GoogleLogin = () => {
+  const location =useLocation()
   const navigate =useNavigate()
    const  {googleLogin}  = useAuth();
   //  console.log(googleLogin)
@@ -11,7 +12,7 @@ const GoogleLogin = () => {
     googleLogin()
     .then(res =>{
       console.log(res)
-      navigate('/')
+      navigate(location.state || '/')
     })
     .catch(erro =>{
       console.log(erro)

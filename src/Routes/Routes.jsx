@@ -6,6 +6,8 @@ import RegisterPage from "../Pages/Auth/RegisterPage";
 import Books from "../Pages/Book/Books";
 import BookDetails from "../Pages/Home/BookDetails";
 import PriviteRoutes from "./PriviteRoutes";
+import DashboardLayout from "../LayOuts/DashboardLayout";
+import MyOrders from "../Pages/Dashboard/MyOrders";
 
  const router = createBrowserRouter([
    {
@@ -35,6 +37,20 @@ import PriviteRoutes from "./PriviteRoutes";
              <BookDetails />
            </PriviteRoutes>
          ),
+       },
+     ],
+   },
+   {
+     path: "/dashboard",
+     element: (
+       <PriviteRoutes>
+         <DashboardLayout />
+       </PriviteRoutes>
+     ),
+     children: [
+       {
+         path: "my-orders",
+         element:<MyOrders/>
        },
      ],
    },

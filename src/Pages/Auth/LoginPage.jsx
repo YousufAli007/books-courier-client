@@ -1,11 +1,13 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router-dom"; // Updated import for modern React Router
+import { Link, useLocation, useNavigate } from "react-router-dom"; // Updated import for modern React Router
 import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../Hook/useAuth";
 
 export default function LoginPage() {
+  const location =useLocation()
+  console.log(location)
   const navagite = useNavigate();
   const {
     register,
@@ -18,7 +20,7 @@ export default function LoginPage() {
     signInUser(data.email, data.password)
       .then((res) => {
         console.log(res);
-        navagite("/");
+        navagite(location.state || "/");
       })
       .catch((err) => {
         console.log(err);
@@ -137,6 +139,7 @@ export default function LoginPage() {
           <p className="text-center mt-8 text-gray-400">
             Don't have an account?{" "}
             <Link
+            state={location.state}
               to="/register"
               className="text-cyan-400 font-bold hover:text-teal-300 transition"
             >

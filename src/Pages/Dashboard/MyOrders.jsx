@@ -1,6 +1,6 @@
 import React from 'react';
 
-const DashbordLayout = () => {
+const MyOrders = () => {
   return (
     <div>
       
@@ -8,4 +8,4 @@ const DashbordLayout = () => {
   );
 };
 
-export default DashbordLayout;
+export default MyOrders;

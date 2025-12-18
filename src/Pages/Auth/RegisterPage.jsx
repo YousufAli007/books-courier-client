@@ -1,12 +1,14 @@
 import React from "react";
 import { useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
-import { Link, useNavigate } from "react-router";
+import { Link, useLocation, useNavigate } from "react-router";
 import GoogleLogin from "./GoogleLogin";
 import useAuth from "../../Hook/useAuth";
 import Swal from "sweetalert2";
 
 export default function RegisterPage() {
+  const location =useLocation()
+  console.log(location)
   const navigate =useNavigate()
   const {
     register,
@@ -25,7 +27,7 @@ export default function RegisterPage() {
         // update user
          updateUser(profile)
          .then(() =>{
-            navigate('/')
+            navigate( location.state ||'/')
             Swal.fire({
               position: "top-end",
               icon: "success",
@@ -188,6 +190,7 @@ export default function RegisterPage() {
           <p className="text-center mt-8 text-gray-400">
             Already have an account?{" "}
             <Link
+              state={location.state}
               to="/login"
               className="text-cyan-400 font-bold hover:text-teal-300 transition"
             >

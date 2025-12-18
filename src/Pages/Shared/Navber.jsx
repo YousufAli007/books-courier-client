@@ -42,6 +42,9 @@ const handleLogOut = () => {
       <li>
         <NavLink to="/books">Books</NavLink>
       </li>
+      <li>
+        <NavLink to="/dashboard/my-orders">Dashboard</NavLink>
+      </li>
     </>
   );
 
