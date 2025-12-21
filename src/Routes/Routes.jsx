@@ -8,6 +8,8 @@ import BookDetails from "../Pages/Home/BookDetails";
 import PriviteRoutes from "./PriviteRoutes";
 import DashboardLayout from "../LayOuts/DashboardLayout";
 import MyOrders from "../Pages/Dashboard/MyOrders";
+import Invoices from "../Pages/Dashboard/Invoices";
+import MyProfile from "../Pages/Dashboard/MyProfile";
 
  const router = createBrowserRouter([
    {
@@ -50,8 +52,16 @@ import MyOrders from "../Pages/Dashboard/MyOrders";
      children: [
        {
          path: "my-orders",
-         element:<MyOrders/>
+         element: <MyOrders />,
        },
+       {
+         path: "invoice",
+         element:<Invoices/>
+       },
+       {
+        path:'profile',
+        element:<MyProfile/>
+       }
      ],
    },
  ]);

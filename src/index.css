@@ -14,3 +14,12 @@ a.active{
   @apply bg-gradient-to-r from-cyan-500 via-teal-500 to-emerald-500
                 hover:from-emerald-500 hover:via-cyan-500 hover:to-teal-600
 }
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;     /* Firefox */
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;             /* Chrome, Safari, Opera */
+  }
+}

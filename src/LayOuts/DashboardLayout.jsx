@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { FiMenu, FiX } from "react-icons/fi";
 import { IoCartSharp } from "react-icons/io5";
+import { FaFileInvoiceDollar, FaUserPlus } from "react-icons/fa";
 import logoImg from'../assets/logo.png'
 import useAuth from "../Hook/useAuth";
 const DashboardLayout = () => {
@@ -36,7 +37,7 @@ const menuItems = (
 
     <li>
       <NavLink
-        to="/dashboard"
+        to="/dashboard/invoice"
         end
         className={({ isActive }) =>
           `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
@@ -48,7 +49,8 @@ const menuItems = (
           }`
         }
       >
-        Dashboard
+        <FaFileInvoiceDollar />
+        Invoices
       </NavLink>
     </li>
 
@@ -64,7 +66,7 @@ const menuItems = (
           }`
         }
       >
-        Profile
+        <FaUserPlus /> Profile
       </NavLink>
     </li>
   </>

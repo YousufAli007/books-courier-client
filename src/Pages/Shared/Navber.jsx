@@ -8,9 +8,9 @@ import Swal from "sweetalert2";
 const Navber = ({ theme, setTheme }) => {
  const [logOutDropdwon, setLogOutDropdown] = useState(false);
 const { user, logOut } = useAuth();
-
+console.log(user)
 const handleLogOut = () => {
-  console.log('hello');
+ 
   
   logOut()
     .then(() => {
