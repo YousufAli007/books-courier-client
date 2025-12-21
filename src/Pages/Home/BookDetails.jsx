@@ -4,13 +4,17 @@ import { useParams } from "react-router";
 import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
 import useAuth from "../../Hook/useAuth";
+import { useForm } from "react-hook-form";
+import Swal from "sweetalert2";
 
 const BookDetails = () => {
-  const {user}=useAuth()
+  const { user } = useAuth();
   const { id } = useParams();
   const axiosSecure = useAxiosSecure();
 
-  const { data: book = {} } = useQuery({
+  const { register, handleSubmit, reset } = useForm();
+
+  const { data: book = {}, isLoading } = useQuery({
     queryKey: ["bookDetails", id],
     queryFn: async () => {
       const res = await axiosSecure.get(`/book-details/${id}`);
@@ -18,35 +22,80 @@ const BookDetails = () => {
     },
   });
 
+  const handleOrder = (data) => {
+    const orderInfo = {
+      ...data,
+      bookId: id,
+      bookName: book.bookName,
+      price: book.price,
+      sellerEmail: book.sellerEmail,
+      buyerName: user?.displayName,
+      buyerEmail: user?.email,
+    };
+
+    // console.log("Order Info:", orderInfo);
+    axiosSecure.post("/orders",orderInfo)
+    .then(res =>{
+      if(res.data.insertedId){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "orders successfull",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    });
+
+    // axiosSecure.post('/orders', orderInfo)
+
+    reset();
+    document.getElementById("order_modal").close();
+  };
+
+  if (isLoading) {
+    return (
+      <Container>
+        <div className="flex justify-center items-center h-[60vh]">
+          <span className="loading loading-spinner loading-lg"></span>
+        </div>
+      </Container>
+    );
+  }
+
   return (
     <Container>
       {/* ===== Page Header ===== */}
-      <div className="text-center mt-10 mb-8">
+      <div className="text-center mt-10 mb-10">
         <h1 className="text-4xl font-bold">📚 Book Details</h1>
         <p className="text-gray-500 mt-2">
-          View complete information before placing your order
+          View complete book information & order easily
         </p>
       </div>
 
-      {/* ===== Book Card ===== */}
-      <div className="card bg-base-100 shadow-xl p-6 mb-10">
+      {/* ===== Book Details Card ===== */}
+      <div className="bg-base-100 shadow-xl rounded-2xl p-6 mb-14">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-          {/* Image Section */}
+          {/* Book Image */}
           <div className="flex justify-center">
             <img
-              src="https://wafilife-media.wafilife.com/uploads/2015/03/salatur-rasul-250x374.jpg"
+              src="https://img.drz.lazcdn.com/static/bd/p/38f9c430b252e2efd4b9f354b5211386.jpg_720x720q80.jpg"
               alt={book.bookName}
-              className=" max-w-md rounded-2xl shadow-md hover:scale-105 transition"
+              className="max-w-sm rounded-xl shadow-lg hover:scale-105 transition"
             />
           </div>
 
-          {/* Info Section */}
+          {/* Book Info */}
           <div className="space-y-4">
             <h2 className="text-3xl font-bold">{book.bookName}</h2>
 
             <div className="flex gap-2 flex-wrap">
-              <span className="badge badge-outline">Author: {book.author}</span>
-              <span className="badge badge-success">{book.status}</span>
+              <span className="badge badge-outline">
+                ✍ Author: {book.author}
+              </span>
+              <span className="badge badge-success capitalize">
+                {book.status}
+              </span>
             </div>
 
             <div className="divider" />
@@ -62,13 +111,13 @@ const BookDetails = () => {
 
             <div className="divider" />
 
-            <p className="text-2xl font-bold text-primary">৳ {book.price}</p>
+            <p className="text-3xl font-bold text-primary">৳ {book.price}</p>
 
             <button
-              className="btn btnStyle btn-wide mt-4"
               onClick={() => document.getElementById("order_modal").showModal()}
+              className="btn btnStyle btn-wide mt-4"
             >
-              Order Now 🚀
+              🛒 Order Now
             </button>
           </div>
         </div>
@@ -77,19 +126,20 @@ const BookDetails = () => {
       {/* ===== Order Modal ===== */}
       <dialog id="order_modal" className="modal modal-bottom sm:modal-middle">
         <div className="modal-box">
-          <h3 className="font-bold text-2xl mb-2">🛒 Place Your Order</h3>
+          <h3 className="font-bold text-2xl mb-1">🛍 Place Your Order</h3>
           <p className="text-gray-500 mb-4">
-            Please fill in the required information
+            Please provide delivery information
           </p>
 
-          <form className="space-y-4">
+          <form onSubmit={handleSubmit(handleOrder)} className="space-y-4">
             {/* Name */}
             <div>
               <label className="label font-semibold">Name</label>
               <input
                 type="text"
-                value={user?.displayName}
+                defaultValue={user?.displayName}
                 readOnly
+                {...register("name")}
                 className="input input-bordered w-full bg-gray-100"
               />
             </div>
@@ -99,8 +149,9 @@ const BookDetails = () => {
               <label className="label font-semibold">Email</label>
               <input
                 type="email"
-                value={user?.email}
+                defaultValue={user?.email}
                 readOnly
+                {...register("email")}
                 className="input input-bordered w-full bg-gray-100"
               />
             </div>
@@ -111,6 +162,7 @@ const BookDetails = () => {
               <input
                 type="text"
                 placeholder="01XXXXXXXXX"
+                {...register("phone", { required: true })}
                 className="input input-bordered w-full"
               />
             </div>
@@ -119,14 +171,18 @@ const BookDetails = () => {
             <div>
               <label className="label font-semibold">Delivery Address</label>
               <textarea
-                placeholder="Enter your full address"
+                placeholder="Enter full delivery address"
+                {...register("address", { required: true })}
                 className="textarea textarea-bordered w-full"
               />
             </div>
 
             {/* Buttons */}
             <div className="modal-action">
-              <button className="btn btnStyle">Confirm Order</button>
+              <button type="submit" className="btn btnStyle">
+                Confirm Order
+              </button>
+
               <button
                 type="button"
                 className="btn btn-outline"
