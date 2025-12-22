@@ -16,7 +16,8 @@ const MyBook = () => {
       return res.data;
     },
   });
-
+  //  console.log(books);
+   
   // publish / unpublish
   const handleStatusToggle = async (id, currentStatus) => {
     await axiosSecure.patch(`/books/status/${id}`, {
@@ -48,7 +49,7 @@ const MyBook = () => {
 
                 <td>
                   <img
-                    src={book.image}
+                    src={book.bookImageUrl}
                     alt={book.bookName}
                     className="w-14 h-20 object-cover rounded"
                   />
