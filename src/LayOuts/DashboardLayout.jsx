@@ -3,8 +3,10 @@ import { Link, NavLink, Outlet } from "react-router";
 import { FiMenu, FiX } from "react-icons/fi";
 import { IoCartSharp } from "react-icons/io5";
 import { FaAddressBook, FaBook, FaFileInvoiceDollar, FaUserPlus } from "react-icons/fa";
+import { BsFillCartDashFill } from "react-icons/bs";
 import logoImg from'../assets/logo.png'
 import useAuth from "../Hook/useAuth";
+import { FaUsers } from "react-icons/fa6";
 const DashboardLayout = () => {
   const {user}=useAuth()
   const [open, setOpen] = useState(false);
@@ -97,6 +99,36 @@ const menuItems = (
         }
       >
         <FaAddressBook /> My Book
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/dashboard/order"
+        className={({ isActive }) =>
+          `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          ${
+            isActive
+              ? "bg-gray-700 text-white"
+              : "text-gray-700 hover:bg-green-100"
+          }`
+        }
+      >
+        <BsFillCartDashFill /> Order
+      </NavLink>
+    </li>
+    <li>
+      <NavLink
+        to="/dashboard/all-user"
+        className={({ isActive }) =>
+          `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          ${
+            isActive
+              ? "bg-gray-700 text-white"
+              : "text-gray-700 hover:bg-green-100"
+          }`
+        }
+      >
+        <FaUsers /> All User
       </NavLink>
     </li>
   </>

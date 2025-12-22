@@ -13,6 +13,8 @@ import MyProfile from "../Pages/Dashboard/MyProfile";
 import AddBook from "../Pages/Dashboard/AddBook";
 import MyBook from "../Pages/Dashboard/MyBook";
 import EditeBook from "../Pages/Dashboard/EditeBook";
+import Order from "../Pages/Dashboard/Order";
+import AllUser from "../Pages/Dashboard/AllUser";
 
  const router = createBrowserRouter([
    {
@@ -75,7 +77,15 @@ import EditeBook from "../Pages/Dashboard/EditeBook";
        },
        {
          path: "edite-book/:id",
-         element:<EditeBook/>
+         element: <EditeBook />,
+       },
+       {
+         path: "order",
+         element: <Order />,
+       },
+       {
+         path: "all-user",
+         element:<AllUser/>
        },
      ],
    },

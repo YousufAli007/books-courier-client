@@ -52,7 +52,7 @@ const MyOrders = () => {
 
       {/* Responsive Table Container - Scrollbar Hidden */}
       <div className="overflow-x-auto scrollbar-hide bg-white rounded-xl shadow-md">
-        <table className="table table-zebra w-full">
+        <table className="table table-zebra">
           {/* Table Head */}
           <thead className="bg-gray-50 text-gray-700">
             <tr>
