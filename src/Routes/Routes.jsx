@@ -11,6 +11,8 @@ import MyOrders from "../Pages/Dashboard/MyOrders";
 import Invoices from "../Pages/Dashboard/Invoices";
 import MyProfile from "../Pages/Dashboard/MyProfile";
 import AddBook from "../Pages/Dashboard/AddBook";
+import MyBook from "../Pages/Dashboard/MyBook";
+import EditeBook from "../Pages/Dashboard/EditeBook";
 
  const router = createBrowserRouter([
    {
@@ -65,7 +67,15 @@ import AddBook from "../Pages/Dashboard/AddBook";
        },
        {
          path: "add-book",
-         element:<AddBook/>
+         element: <AddBook />,
+       },
+       {
+         path: "my-book",
+         element: <MyBook />,
+       },
+       {
+         path: "edite-book/:id",
+         element:<EditeBook/>
        },
      ],
    },
