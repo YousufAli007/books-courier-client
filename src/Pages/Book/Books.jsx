@@ -128,7 +128,7 @@ const Books = () => {
                 {/* Image */}
                 <div className="overflow-hidden">
                   <img
-                    src="https://cdn.pixabay.com/photo/2016/10/26/10/05/book-1771073_1280.jpg"
+                    src={book.bookImageUrl}
                     alt={book.bookName}
                     className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-700"
                   />

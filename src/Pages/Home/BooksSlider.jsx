@@ -9,17 +9,17 @@ import { Link } from "react-router";
 const BooksSlider = () => {
   const slides = [
     {
-      img: "https://i.ibb.co/RGbrVtKW/ecb2f761-0357-42d7-907e-e206cf850188.jpg",
+      img: "https://images.unsplash.com/photo-1524578271613-d550eacf6090?q=80&w=1170&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Book One",
       desc: "A fascinating story about growth and habits.",
     },
     {
-      img: "https://i.ibb.co/0VnMhKqb/804a4e97-df45-496c-b488-2e2c6e9ae840.jpg",
+      img: "https://images.unsplash.com/photo-1604866830893-c13cafa515d5?q=80&w=687&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Book Two",
       desc: "Learn step-by-step methods for success.",
     },
     {
-      img: "https://i.ibb.co/kgPgrVsp/flat-lay-student-using-disinfectant-desk.jpg",
+      img: "https://images.unsplash.com/photo-1526243741027-444d633d7365?q=80&w=1171&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
       title: "Book Three",
       desc: "Transform small actions into long-term achievements.",
     },

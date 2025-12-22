@@ -6,11 +6,22 @@ import { FaAddressBook, FaBook, FaFileInvoiceDollar, FaUserPlus } from "react-ic
 import { BsFillCartDashFill } from "react-icons/bs";
 import logoImg from'../assets/logo.png'
 import useAuth from "../Hook/useAuth";
-import { FaUsers } from "react-icons/fa6";
+import { FaBookSkull, FaUsers } from "react-icons/fa6";
+import { useQuery } from "@tanstack/react-query";
+import useAxiosSecure from "../Hook/useAxiosSecure";
 const DashboardLayout = () => {
   const {user}=useAuth()
   const [open, setOpen] = useState(false);
-
+  const axiosSecure =useAxiosSecure()
+  const {data:users =[]}=useQuery({
+    queryKey:['user'.user?.email],
+    queryFn:async ()=>{
+      const res = await axiosSecure.get(`/users?email=${user?.email}`);
+      return res.data
+    }
+  })
+  const userRole =users[0]
+   
   
   const DASHBOARD_TITLE = (
     <Link to='/'>
@@ -20,117 +31,148 @@ const DashboardLayout = () => {
 
 const menuItems = (
   <>
-    <li>
-      <NavLink
-        to="/dashboard/my-orders"
-        className={({ isActive }) =>
-          `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
+    {userRole?.role === "user" && (
+      <li>
+        <NavLink
+          to="/dashboard/my-orders"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
-        }
-      >
-        <IoCartSharp size={25} />
-        <p>My Order</p>
-      </NavLink>
-    </li>
+          }
+        >
+          <IoCartSharp size={25} />
+          <p>My Order</p>
+        </NavLink>
+      </li>
+    )}
 
-    <li>
-      <NavLink
-        to="/dashboard/invoice"
-        end
-        className={({ isActive }) =>
-          `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
+    {userRole?.role === "user" && (
+      <li>
+        <NavLink
+          to="/dashboard/invoice"
+          end
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
           
           ${
             isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
-        }
-      >
-        <FaFileInvoiceDollar />
-        Invoices
-      </NavLink>
-    </li>
+          }
+        >
+          <FaFileInvoiceDollar />
+          Invoices
+        </NavLink>
+      </li>
+    )}
 
-    <li>
-      <NavLink
-        to="/dashboard/profile"
-        className={({ isActive }) =>
-          `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+    {userRole?.role === "user" && (
+      <li>
+        <NavLink
+          to="/dashboard/profile"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
-        }
-      >
-        <FaUserPlus /> Profile
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/dashboard/add-book"
-        className={({ isActive }) =>
-          `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          }
+        >
+          <FaUserPlus /> Profile
+        </NavLink>
+      </li>
+    )}
+    {userRole?.role === "librarian" && (
+      <li>
+        <NavLink
+          to="/dashboard/add-book"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
-        }
-      >
-        <FaBook /> Add Book
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/dashboard/my-book"
-        className={({ isActive }) =>
-          `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          }
+        >
+          <FaBook /> Add Book
+        </NavLink>
+      </li>
+    )}
+    {userRole?.role === "librarian" && (
+      <li>
+        <NavLink
+          to="/dashboard/my-book"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
-        }
-      >
-        <FaAddressBook /> My Book
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/dashboard/order"
-        className={({ isActive }) =>
-          `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          }
+        >
+          <FaAddressBook /> My Book
+        </NavLink>
+      </li>
+    )}
+    {userRole?.role === "librarian" && (
+      <li>
+        <NavLink
+          to="/dashboard/order"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
-        }
-      >
-        <BsFillCartDashFill /> Order
-      </NavLink>
-    </li>
-    <li>
-      <NavLink
-        to="/dashboard/all-user"
-        className={({ isActive }) =>
-          `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          }
+        >
+          <BsFillCartDashFill /> Order
+        </NavLink>
+      </li>
+    )}
+    {userRole?.role === "admin" && (
+      <li>
+        <NavLink
+          to="/dashboard/all-user"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
-        }
-      >
-        <FaUsers /> All User
-      </NavLink>
-    </li>
+          }
+        >
+          <FaUsers /> All User
+        </NavLink>
+      </li>
+    )}
+    {userRole?.role === "admin" && (
+      <li>
+        <NavLink
+          to="/dashboard/all-user"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          ${
+            isActive
+              ? "bg-gray-700 text-white"
+              : "text-gray-700 hover:bg-green-100"
+          }`
+          }
+        >
+          <FaBookSkull /> Manage Book
+        </NavLink>
+      </li>
+    )}
   </>
 );
 

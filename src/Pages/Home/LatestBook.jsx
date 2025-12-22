@@ -13,7 +13,7 @@ const LatestBook = () => {
       return res.data;
     },
   });
-
+ 
   return (
     <div className="  mx-auto px-4 py-10">
       <h2 className="text-2xl font-bold text-center mb-8">Latest Books</h2>
@@ -26,7 +26,7 @@ const LatestBook = () => {
           >
             {/* Image */}
             <img
-              src="https://cdn.pixabay.com/photo/2016/10/26/10/05/book-1771073_1280.jpg"
+              src={book.bookImageUrl}
               alt={book.bookName}
               className="w-full h-48 object-cover rounded-t-xl"
             />
