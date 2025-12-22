@@ -3,12 +3,13 @@ import { useQuery } from "@tanstack/react-query";
 import useAxiosSecure from "../../Hook/useAxiosSecure";
 import useAuth from "../../Hook/useAuth";
 import { Link } from "react-router-dom";
+import Swal from "sweetalert2";
 
 const MyOrders = () => {
   const axiosSecure = useAxiosSecure();
   const { user } = useAuth();
 
-  const { data: myOrders = []} = useQuery({
+  const { refetch, data: myOrders = []} = useQuery({
     queryKey: ["my-orders", user?.email],
     enabled: !!user?.email,
     queryFn: async () => {
@@ -16,6 +17,35 @@ const MyOrders = () => {
       return res.data;
     },
   });
+  const handleOrderDelete = (id) => {
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "Yes, delete it!",
+    }).then((result) => {
+      if (result.isConfirmed) {
+        axiosSecure.delete(`/order/${id}`).then((res) => {
+          if (res.data.deletedCount) {
+            refetch();
+            Swal.fire({
+              title: "Deleted!",
+              text: "Your file has been deleted.",
+              icon: "success",
+            });
+          }
+        });
+        // Swal.fire({
+        //   title: "Deleted!",
+        //   text: "Your file has been deleted.",
+        //   icon: "success",
+        // });
+      }
+    });
+  };
   return (
     <div className="w-full max-w-6xl mx-auto">
       <h1 className="text-3xl font-bold mb-8 text-gray-800">My Orders</h1>
@@ -64,7 +94,12 @@ const MyOrders = () => {
                           Pay Now
                         </button>
                       </Link>
-                      <button className="btn btn-sm btn-error">Cancel</button>
+                      <button
+                        onClick={() => handleOrderDelete(order._id)}
+                        className="btn btn-sm btn-error"
+                      >
+                        Cancel
+                      </button>
                     </div>
                   ) : (
                     <span className="text-gray-400 text-sm">—</span>

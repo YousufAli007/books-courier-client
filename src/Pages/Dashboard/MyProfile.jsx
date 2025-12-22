@@ -1,131 +1,201 @@
-import React from "react";
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import useAuth from "../../Hook/useAuth";
+import Swal from "sweetalert2";
 
 const MyProfile = () => {
+  const { user, updateUser } = useAuth();
+  const [isEditing, setIsEditing] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm({
+    defaultValues: {
+      name: user?.displayName || "",
+      photoURL: user?.photoURL || "",
+    },
+  });
+
+  // রিয়েল-টাইম প্রিভিউয়ের জন্য photoURL watch করা
+  const watchedPhotoURL = watch("photoURL");
+
+  const onSubmit = async (data) => {
+    const { name, photoURL } = data;
+
+    const trimmedName = name.trim();
+    const trimmedPhotoURL = photoURL.trim();
+
+    // যদি কোনো চেঞ্জ না থাকে তাহলে কিছু করব না
+    if (
+      trimmedName === (user?.displayName || "") &&
+      trimmedPhotoURL === (user?.photoURL || "")
+    ) {
+      setIsEditing(false);
+      return;
+    }
+
+    setIsLoading(true);
+
+    try {
+      await updateUser({
+        displayName: trimmedName,
+        photoURL: trimmedPhotoURL,
+      });
+
+      Swal.fire({
+        icon: "success",
+        title: "Success!",
+        text: "Profile updated successfully!",
+        timer: 2000,
+        showConfirmButton: false,
+      });
+
+      setIsEditing(false);
+    } catch (error) {
+      console.error("Profile update error:", error);
+      Swal.fire({
+        icon: "error",
+        title: "Failed!",
+        text: error.message || "Could not update profile. Try again.",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-12 px-4">
-      <div className="max-w-4xl mx-auto">
-        {/* Page Title */}
-        <h1 className="text-4xl font-bold text-center text-gray-800 mb-10">
+    <div className="min-h-screen bg-gray-50 py-12 px-4">
+      <div className="max-w-2xl mx-auto">
+        <h1 className="text-3xl font-bold text-center text-gray-800 mb-10">
           My Profile
         </h1>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
-          {/* Current Profile Info Card */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-8 text-center">
-              Current Information
-            </h2>
+        <div className="bg-white rounded-2xl shadow-lg p-8">
+          {/* View Mode */}
+          {!isEditing ? (
+            <div className="flex flex-col items-center text-center space-y-6">
+              <img
+                src={user?.photoURL || "https://via.placeholder.com/150"}
+                alt="Profile"
+                className="w-32 h-32 rounded-full object-cover border-4 border-blue-500 shadow-md"
+              />
 
-            <div className="flex flex-col items-center space-y-6">
-              {/* Profile Picture */}
-              <div className="relative">
-                <img
-                  src="https://randomuser.me/api/portraits/men/32.jpg"
-                  alt="Profile"
-                  className="w-40 h-40 rounded-full object-cover border-4 border-blue-500 shadow-lg"
-                />
-                <div className="absolute bottom-0 right-0 w-10 h-10 bg-green-500 rounded-full border-4 border-white"></div>
-              </div>
-
-              {/* User Details */}
-              <div className="text-center space-y-3">
-                <h3 className="text-2xl font-bold text-gray-800">
-                  Rahim Uddin
-                </h3>
-                <p className="text-lg text-gray-600">rahim@gmail.com</p>
-                <p className="text-sm text-gray-500">
-                  Member since December 2024
+              <div>
+                <h2 className="text-2xl font-semibold text-gray-800">
+                  {user?.displayName || "User Name"}
+                </h2>
+                <p className="text-gray-600 mt-1">
+                  {user?.email || "No email"}
                 </p>
               </div>
 
-              {/* Stats (Optional) */}
-              <div className="grid grid-cols-3 gap-6 mt-8 w-full">
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-blue-600">12</p>
-                  <p className="text-sm text-gray-600">Books Sold</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-green-600">8</p>
-                  <p className="text-sm text-gray-600">Books Bought</p>
-                </div>
-                <div className="text-center">
-                  <p className="text-3xl font-bold text-purple-600">4.8</p>
-                  <p className="text-sm text-gray-600">Rating</p>
-                </div>
-              </div>
+              <button
+                onClick={() => setIsEditing(true)}
+                className="px-8 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-md"
+              >
+                Edit Profile
+              </button>
             </div>
-          </div>
+          ) : (
+            /* Edit Mode */
+            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+              {/* Photo Preview - রিয়েল-টাইম আপডেট হবে */}
+              <div className="flex flex-col items-center">
+                <img
+                  src={
+                    watchedPhotoURL ||
+                    user?.photoURL ||
+                    "https://via.placeholder.com/150"
+                  }
+                  alt="Profile Preview"
+                  className="w-32 h-32 rounded-full object-cover border-4 border-gray-300 shadow mb-6"
+                />
+              </div>
 
-          {/* Update Profile Form */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-8">
-              Update Profile
-            </h2>
-
-            <form className="space-y-6">
-              {/* Name Field */}
+              {/* Full Name */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Full Name
                 </label>
                 <input
                   type="text"
-                  defaultValue="Rahim Uddin"
-                  placeholder="Enter your name"
-                  className="w-full px-5 py-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-blue-500/30 focus:border-blue-500 transition-all duration-300 bg-gray-50"
+                  {...register("name", { required: "Name is required" })}
+                  placeholder="Enter your full name"
+                  className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
                 />
+                {errors.name && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.name.message}
+                  </p>
+                )}
               </div>
 
-              {/* Email (Read-only) */}
+              {/* Photo URL */}
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Email Address
+                  Photo URL
+                </label>
+                <input
+                  type="url"
+                  {...register("photoURL", {
+                    pattern: {
+                      value: /^https?:\/\/.+/i,
+                      message:
+                        "Enter a valid URL starting with http:// or https://",
+                    },
+                  })}
+                  placeholder="https://example.com/your-photo.jpg"
+                  className="w-full px-5 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 transition"
+                />
+                {errors.photoURL && (
+                  <p className="text-red-500 text-xs mt-1">
+                    {errors.photoURL.message}
+                  </p>
+                )}
+                <p className="text-xs text-gray-500 mt-2">
+                  Paste a direct image link (e.g., from ImgBB, Imgur, etc.)
+                </p>
+              </div>
+
+              {/* Email */}
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Email
                 </label>
                 <input
                   type="email"
-                  value="rahim@gmail.com"
-                  readOnly
-                  className="w-full px-5 py-4 border border-gray-300 rounded-xl bg-gray-100 text-gray-600 cursor-not-allowed"
+                  value={user?.email || ""}
+                  disabled
+                  className="w-full px-5 py-3 border border-gray-200 rounded-lg bg-gray-100 text-gray-600"
                 />
-                <p className="text-xs text-gray-500 mt-2">
-                  Email cannot be changed
-                </p>
               </div>
 
-              {/* Profile Picture Upload */}
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Profile Picture
-                </label>
-                <div className="flex items-center space-x-4">
-                  <img
-                    src="https://randomuser.me/api/portraits/men/32.jpg"
-                    alt="Current"
-                    className="w-20 h-20 rounded-full object-cover border-2 border-gray-300"
-                  />
-                  <label className="cursor-pointer">
-                    <span className="px-6 py-4 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition-all duration-300 shadow-md">
-                      Choose New Photo
-                    </span>
-                    <input type="file" accept="image/*" className="hidden" />
-                  </label>
-                </div>
-                <p className="text-xs text-gray-500 mt-3">
-                  JPG, PNG or GIF. Max size 2MB.
-                </p>
-              </div>
-
-              {/* Submit Button */}
-              <div className="pt-6">
+              {/* Buttons */}
+              <div className="flex gap-4 pt-4">
                 <button
                   type="submit"
-                  className="w-full bg-gradient-to-r from-blue-600 to-indigo-700 text-white font-semibold py-4 rounded-xl hover:from-blue-700 hover:to-indigo-800 transform hover:-translate-y-1 transition-all duration-300 shadow-lg text-lg"
+                  disabled={isLoading}
+                  className={`flex-1 py-3 bg-blue-600 text-white font-medium rounded-xl hover:bg-blue-700 transition shadow-md ${
+                    isLoading ? "opacity-70 cursor-not-allowed" : ""
+                  }`}
                 >
-                  Update Profile
+                  {isLoading ? "Saving..." : "Save Changes"}
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setIsEditing(false)}
+                  disabled={isLoading}
+                  className="flex-1 py-3 bg-gray-300 text-gray-700 font-medium rounded-xl hover:bg-gray-400 transition"
+                >
+                  Cancel
                 </button>
               </div>
             </form>
-          </div>
+          )}
         </div>
       </div>
     </div>

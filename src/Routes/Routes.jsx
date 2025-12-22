@@ -10,6 +10,7 @@ import DashboardLayout from "../LayOuts/DashboardLayout";
 import MyOrders from "../Pages/Dashboard/MyOrders";
 import Invoices from "../Pages/Dashboard/Invoices";
 import MyProfile from "../Pages/Dashboard/MyProfile";
+import AddBook from "../Pages/Dashboard/AddBook";
 
  const router = createBrowserRouter([
    {
@@ -56,12 +57,16 @@ import MyProfile from "../Pages/Dashboard/MyProfile";
        },
        {
          path: "invoice",
-         element:<Invoices/>
+         element: <Invoices />,
        },
        {
-        path:'profile',
-        element:<MyProfile/>
-       }
+         path: "profile",
+         element: <MyProfile />,
+       },
+       {
+         path: "add-book",
+         element:<AddBook/>
+       },
      ],
    },
  ]);
