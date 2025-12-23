@@ -15,6 +15,7 @@ import MyBook from "../Pages/Dashboard/MyBook";
 import EditeBook from "../Pages/Dashboard/EditeBook";
 import Order from "../Pages/Dashboard/Order";
 import AllUser from "../Pages/Dashboard/AllUser";
+import ManageBook from "../Pages/Dashboard/ManageBook";
 
  const router = createBrowserRouter([
    {
@@ -87,6 +88,10 @@ import AllUser from "../Pages/Dashboard/AllUser";
          path: "all-user",
          element:<AllUser/>
        },
+       {
+        path:'manage-book',
+        element:<ManageBook/>
+       }
      ],
    },
  ]);

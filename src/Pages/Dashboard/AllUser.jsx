@@ -65,7 +65,6 @@ const AllUser = () => {
           <thead className="bg-gray-100">
             <tr>
               <th className="px-4 py-3">#</th>
-              <th className="px-4 py-3">Name</th>
               <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Role</th>
               <th className="px-4 py-3 text-center">Actions</th>
@@ -76,7 +75,6 @@ const AllUser = () => {
             {users.map((u, index) => (
               <tr key={u._id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-3">{index + 1}</td>
-                <td className="px-4 py-3">{u.name || "N/A"}</td>
                 <td className="px-4 py-3">{u.email}</td>
                 <td className="px-4 py-3 capitalize">{u.role}</td>
                 <td className="px-4 py-3 text-center space-x-2">

@@ -159,7 +159,7 @@ const menuItems = (
     {userRole?.role === "admin" && (
       <li>
         <NavLink
-          to="/dashboard/all-user"
+          to="/dashboard/manage-book"
           className={({ isActive }) =>
             `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${

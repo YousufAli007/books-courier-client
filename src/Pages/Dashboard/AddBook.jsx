@@ -1,50 +1,46 @@
 import React from "react";
-import { useParams, useNavigate } from "react-router";
-import { useQuery } from "@tanstack/react-query";
-import useAxiosSecure from "../../Hook/useAxiosSecure";
+import { useNavigate } from "react-router";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
+import useAuth from "../../Hook/useAuth";
+import useAxiosSecure from "../../Hook/useAxiosSecure";
 
-const EditBook = () => {
-  const { id } = useParams();
+const AddBook = () => {
   const navigate = useNavigate();
   const axiosSecure = useAxiosSecure();
+  const { user } = useAuth();
 
-  const { register, handleSubmit, reset } = useForm();
-
-  // get single book
-  const { isLoading } = useQuery({
-    queryKey: ["book", id],
-    queryFn: async () => {
-      const res = await axiosSecure.get(`/books/${id}`);
-      reset(res.data); // auto fill form
-      return res.data;
+  const { register, handleSubmit, reset } = useForm({
+    defaultValues: {
+      status: "unpublished",
     },
   });
 
   const onSubmit = async (data) => {
-    const res = await axiosSecure.put(`/books/${id}`, data);
+    const bookData = {
+      ...data,
+      sellerEmail: user?.email,
+    };
 
-    if (res.data?.modifiedCount > 0) {
+    const res = await axiosSecure.post("/books", bookData);
+
+    if (res.data?.insertedId) {
       Swal.fire({
         position: "top-end",
         icon: "success",
-        title: "Your update Success",
+        title: "Book Added Successfully",
         showConfirmButton: false,
         timer: 1500,
       });
 
+      reset();
       navigate("/dashboard/my-book");
     }
   };
 
-  if (isLoading) {
-    return <p className="text-center mt-10">Loading...</p>;
-  }
-
   return (
     <div className="max-w-3xl mx-auto p-6 bg-white rounded-xl shadow">
-      <h2 className="text-2xl font-bold mb-6">Edit Book</h2>
+      <h2 className="text-2xl font-bold mb-6">Add New Book</h2>
 
       <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
         {/* Book Name */}
@@ -53,6 +49,7 @@ const EditBook = () => {
           <input
             {...register("bookName", { required: true })}
             className="input input-bordered w-full"
+            placeholder="Book name"
           />
         </div>
 
@@ -60,8 +57,9 @@ const EditBook = () => {
         <div>
           <label className="label">Book Image URL</label>
           <input
-            {...register("bookImageUrl")}
+            {...register("bookImageUrl", { required: true })}
             className="input input-bordered w-full"
+            placeholder="Image URL"
           />
         </div>
 
@@ -69,8 +67,9 @@ const EditBook = () => {
         <div>
           <label className="label">Author</label>
           <input
-            {...register("author")}
+            {...register("author", { required: true })}
             className="input input-bordered w-full"
+            placeholder="Author name"
           />
         </div>
 
@@ -78,16 +77,18 @@ const EditBook = () => {
         <div>
           <label className="label">Price</label>
           <input
-            {...register("price")}
+            type="number"
+            {...register("price", { required: true })}
             className="input input-bordered w-full"
+            placeholder="Price"
           />
         </div>
 
-        {/* Status */}
+        {/* Publish / Unpublish */}
         <div>
           <label className="label">Status</label>
           <select
-            {...register("status")}
+            {...register("status", { required: true })}
             className="select select-bordered w-full"
           >
             <option value="published">Published</option>
@@ -95,10 +96,10 @@ const EditBook = () => {
           </select>
         </div>
 
-        <button className="btn btn-primary w-full mt-4">Update Book</button>
+        <button className="btn btn-primary w-full mt-4">Add Book</button>
       </form>
     </div>
   );
 };
 
-export default EditBook;
+export default AddBook;

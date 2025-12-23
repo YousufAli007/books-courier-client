@@ -5,6 +5,7 @@ import WhyChooseBookCourier from './WhyChooseBookCourier';
 import { HowBookCourierWorks } from './HowBookCourierWorks';
 import { SpecialFeatures } from './SpecialFeatures';
 import LatestBook from './LatestBook';
+import Coverage from './Coverage ';
 
 const Home = () => {
   return (
@@ -13,6 +14,7 @@ const Home = () => {
       <BooksSlider/>
       <LatestBook/>
       <WhyChooseBookCourier/>
+      <Coverage></Coverage>
       <HowBookCourierWorks/>
       <SpecialFeatures/>
     </Container>
