@@ -47,9 +47,8 @@ const Order = () => {
             <tr>
               <th>#</th>
               <th>Book</th>
-              <th>Buyer</th>
-              <th>Phone</th>
-              <th>Price</th>
+              {/* <th>Buyer</th> */}
+              {/* <th>Phone</th> */}
               <th>Status</th>
               <th className="text-center">Action</th>
             </tr>
@@ -60,9 +59,9 @@ const Order = () => {
               <tr key={order._id} className="hover:bg-gray-50">
                 <td>{index + 1}</td>
                 <td>{order.bookName}</td>
-                <td>{order.buyerName}</td>
-                <td>{order.phone}</td>
-                <td>{order.price} ৳</td>
+                {/* <td>{order.buyerName}</td> */}
+                {/* <td>{order.phone}</td> */}
+                {/* <td>{order.price} ৳</td> */}
 
                 <td>
                   <span className="badge badge-outline">{order.status}</span>

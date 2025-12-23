@@ -57,16 +57,16 @@ import ManageBook from "../Pages/Dashboard/ManageBook";
      ),
      children: [
        {
+         path: "profile",
+         element: <MyProfile />,
+       },
+       {
          path: "my-orders",
          element: <MyOrders />,
        },
        {
          path: "invoice",
          element: <Invoices />,
-       },
-       {
-         path: "profile",
-         element: <MyProfile />,
        },
        {
          path: "add-book",
@@ -86,12 +86,12 @@ import ManageBook from "../Pages/Dashboard/ManageBook";
        },
        {
          path: "all-user",
-         element:<AllUser/>
+         element: <AllUser />,
        },
        {
-        path:'manage-book',
-        element:<ManageBook/>
-       }
+         path: "manage-book",
+         element: <ManageBook />,
+       },
      ],
    },
  ]);

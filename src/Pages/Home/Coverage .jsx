@@ -20,7 +20,7 @@ const Coverage  = () => {
   const position = [51.505, -0.09];
   return (
     <Container>
-      <div className="bg-gray-400 p-10">
+      <div className="bg-gray-400 p-10 rounded-2xl">
         <h1 className="text-center font-bold text-3xl my-4">Coverage Ariea</h1>
         <div className="border w-full h-[800px]">
           <MapContainer

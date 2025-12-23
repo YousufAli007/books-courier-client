@@ -31,6 +31,7 @@ const DashboardLayout = () => {
 
 const menuItems = (
   <>
+
     {userRole?.role === "user" && (
       <li>
         <NavLink
@@ -39,13 +40,30 @@ const menuItems = (
             `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
+            ? "bg-gray-700 text-white"
+            : "text-gray-700 hover:bg-green-100"
+          }`
+        }
+        >
+          <IoCartSharp size={25} />
+          <p>My Order</p>
+        </NavLink>
+      </li>
+    )}
+    {userRole?.role === "librarian" ||(
+      <li>
+        <NavLink
+          to="/dashboard/profile"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
+          ${
+            isActive
               ? "bg-gray-700 text-white"
               : "text-gray-700 hover:bg-green-100"
           }`
           }
         >
-          <IoCartSharp size={25} />
-          <p>My Order</p>
+          <FaUserPlus /> Profile
         </NavLink>
       </li>
     )}
@@ -71,23 +89,6 @@ const menuItems = (
       </li>
     )}
 
-    {userRole?.role === "user" && (
-      <li>
-        <NavLink
-          to="/dashboard/profile"
-          className={({ isActive }) =>
-            `text-xl font-semibold w-full  px-4 py-2 rounded-lg transition flex items-center  gap-3
-          ${
-            isActive
-              ? "bg-gray-700 text-white"
-              : "text-gray-700 hover:bg-green-100"
-          }`
-          }
-        >
-          <FaUserPlus /> Profile
-        </NavLink>
-      </li>
-    )}
     {userRole?.role === "librarian" && (
       <li>
         <NavLink
