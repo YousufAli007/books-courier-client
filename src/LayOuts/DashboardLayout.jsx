@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router";
 import { FiMenu, FiX } from "react-icons/fi";
 import { IoCartSharp } from "react-icons/io5";
-import { FaAddressBook, FaBook, FaFileInvoiceDollar, FaUserPlus } from "react-icons/fa";
+import { FaAddressBook, FaBook, FaBookmark, FaFileInvoiceDollar, FaUserPlus } from "react-icons/fa";
 import { BsFillCartDashFill } from "react-icons/bs";
 import logoImg from'../assets/logo.png'
 import useAuth from "../Hook/useAuth";
@@ -31,7 +31,6 @@ const DashboardLayout = () => {
 
 const menuItems = (
   <>
-
     {userRole?.role === "user" && (
       <li>
         <NavLink
@@ -40,17 +39,36 @@ const menuItems = (
             `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
           ${
             isActive
-            ? "bg-gray-700 text-white"
-            : "text-gray-700 hover:bg-green-100"
+              ? "bg-gray-700 text-white"
+              : "text-gray-700 hover:bg-green-100"
           }`
-        }
+          }
         >
           <IoCartSharp size={25} />
           <p>My Order</p>
         </NavLink>
       </li>
     )}
-    {userRole?.role === "librarian" ||(
+    {userRole?.role === "user" && (
+      <li>
+        <NavLink
+          to="/dashboard/wishlist"
+          className={({ isActive }) =>
+            `text-xl font-semibold w-full   px-4 py-2 rounded-lg transition flex items-center  gap-3
+          ${
+            isActive
+              ? "bg-gray-700 text-white"
+              : "text-gray-700 hover:bg-green-100"
+          }`
+          }
+        >
+          <FaBookmark />
+          <p>Wishlist</p>
+        </NavLink>
+      </li>
+    )}
+
+    {userRole?.role === "librarian" || (
       <li>
         <NavLink
           to="/dashboard/profile"

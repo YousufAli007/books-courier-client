@@ -21,7 +21,32 @@ const BookDetails = () => {
       return res.data;
     },
   });
-
+  console.log(book);
+  
+  const { author, bookImageUrl, bookName, price, sellerEmail, status ,_id } = book;
+  const wishlistBook = {
+    author,
+    bookImageUrl,
+    bookName,
+    price,
+    sellerEmail,
+    status,
+    bookId: _id,
+  };
+   const handleWishlist=()=>{
+    axiosSecure.post("/wishlist",wishlistBook)
+    .then(res =>{
+      if(res.data.insertedId){
+        Swal.fire({
+          position: "top-end",
+          icon: "success",
+          title: "Wishlist add success",
+          showConfirmButton: false,
+          timer: 1500,
+        });
+      }
+    })
+   }
   const handleOrder = (data) => {
     const orderInfo = {
       ...data,
@@ -113,12 +138,22 @@ const BookDetails = () => {
 
             <p className="text-3xl font-bold text-primary">৳ {book.price}</p>
 
-            <button
-              onClick={() => document.getElementById("order_modal").showModal()}
-              className="btn btnStyle btn-wide mt-4"
-            >
-              🛒 Order Now
-            </button>
+            <div className="flex flex-wrap space-x-3">
+              <button
+                onClick={() =>
+                  document.getElementById("order_modal").showModal()
+                }
+                className="btn btnStyle btn-wide mt-4"
+              >
+                🛒 Order Now
+              </button>
+              <button
+                onClick={handleWishlist}
+                className="btn btnStyle btn-wide mt-4 "
+              >
+                Add Wishlist
+              </button>
+            </div>
           </div>
         </div>
       </div>

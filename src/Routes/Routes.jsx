@@ -16,6 +16,7 @@ import EditeBook from "../Pages/Dashboard/EditeBook";
 import Order from "../Pages/Dashboard/Order";
 import AllUser from "../Pages/Dashboard/AllUser";
 import ManageBook from "../Pages/Dashboard/ManageBook";
+import Wishlist from "../Pages/Dashboard/Wishlist";
 
  const router = createBrowserRouter([
    {
@@ -91,6 +92,10 @@ import ManageBook from "../Pages/Dashboard/ManageBook";
        {
          path: "manage-book",
          element: <ManageBook />,
+       },
+       {
+         path: "wishlist",
+         element:<Wishlist/>
        },
      ],
    },
