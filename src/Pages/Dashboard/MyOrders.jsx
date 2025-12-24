@@ -97,13 +97,13 @@ const MyOrders = () => {
                             : "badge-warning"
                         }`}
                       >
-                        {order.paymentStatus || "pending"}
+                        {order.paymentStatus}
                       </span>
                     </td>
                     <td className="text-center">
                       {order.paymentStatus === "pending" ? (
                         <div className="flex justify-center gap-2 flex-wrap">
-                          <Link to={`/payment/${order._id}`}>
+                          <Link to={`/dashboard/payment/${order._id}`}>
                             <button className="btn btn-sm btn-success">
                               Pay Now
                             </button>
@@ -126,7 +126,7 @@ const MyOrders = () => {
           </div>
         </div>
       ) : (
-        <div >
+        <div>
           <h1 className="text-3xl font-bold">No Select any Navik</h1>
           <p className="text-xl my-3">Select any NavLink</p>
         </div>

@@ -18,6 +18,9 @@ import AllUser from "../Pages/Dashboard/AllUser";
 import ManageBook from "../Pages/Dashboard/ManageBook";
 import Wishlist from "../Pages/Dashboard/Wishlist";
 import NotFound from "../Components/NotFound";
+import Payment from "../Pages/Dashboard/Payment";
+import PaymentSuccess from "../Pages/Dashboard/PaymentSuccess";
+import PaymentCencel from "../Pages/Dashboard/PaymentCencel";
 
  const router = createBrowserRouter([
    {
@@ -96,13 +99,25 @@ import NotFound from "../Components/NotFound";
        },
        {
          path: "wishlist",
-         element:<Wishlist/>
+         element: <Wishlist />,
+       },
+       {
+         path: "payment/:parcelId",
+         element: <Payment />,
+       },
+       {
+         path: "payment-success",
+         element: <PaymentSuccess />,
+       },
+       {
+         path: "payment-cancel",
+         element:<PaymentCencel></PaymentCencel>
        },
      ],
    },
    {
-    path:"*",
-    element:<NotFound/>
-   }
+     path: "*",
+     element: <NotFound />,
+   },
  ]);
  export default router

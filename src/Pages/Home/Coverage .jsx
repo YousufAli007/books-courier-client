@@ -34,7 +34,10 @@ const Coverage  = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {service.map((center) => (
-              <Marker position={[center.latitude, center.longitude]}>
+              <Marker
+                
+                position={[center.latitude, center.longitude]}
+              >
                 <Popup>
                   A pretty CSS3 popup. <br /> Easily customizable.
                 </Popup>
