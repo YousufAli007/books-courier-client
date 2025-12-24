@@ -17,6 +17,7 @@ import Order from "../Pages/Dashboard/Order";
 import AllUser from "../Pages/Dashboard/AllUser";
 import ManageBook from "../Pages/Dashboard/ManageBook";
 import Wishlist from "../Pages/Dashboard/Wishlist";
+import NotFound from "../Components/NotFound";
 
  const router = createBrowserRouter([
    {
@@ -99,5 +100,9 @@ import Wishlist from "../Pages/Dashboard/Wishlist";
        },
      ],
    },
+   {
+    path:"*",
+    element:<NotFound/>
+   }
  ]);
  export default router
